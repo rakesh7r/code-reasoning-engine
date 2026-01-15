@@ -1,9 +1,9 @@
-import { extractNodesFromProject } from './app/nodeExtract/extractNodes';
+import { createProject } from './app/utils/project';
+import { buildDependencyGraph } from './app/spineGraph/buildGraph';
 
-const nodes = extractNodesFromProject(
-	'/Users/rakeshg/workspace/SD-Apps/code-reasonnig/cal.com/apps/api/v2',
-	'tsconfig.json'
-);
+const project = createProject('/Users/rakeshg/workspace/SD-Apps/code-reasonnig/cal.com/apps/api/v2', 'tsconfig.json');
 
-console.log(nodes.length);
-console.log(nodes.slice(100, 115));
+const graph = buildDependencyGraph(project);
+
+console.log(`Graph Nodes: ${graph.nodes.size}`);
+console.log(`Graph Edges: ${graph.edges.length}`);

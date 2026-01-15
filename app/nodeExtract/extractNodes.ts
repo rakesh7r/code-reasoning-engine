@@ -1,17 +1,7 @@
 import { Project } from 'ts-morph';
-import path from 'path';
-import crypto from 'crypto';
-import { Node, Symbol as MorphSymbol } from 'ts-morph';
-
-import type { CodeNode, CodeNodeType } from './types';
-
-/**
- * Deterministic ID so graph nodes don't reshuffle every run
- */
-function makeNodeId(filePath: string, name: string, kind: CodeNodeType) {
-	const raw = `${filePath}:${kind}:${name}`;
-	return crypto.createHash('sha1').update(raw).digest('hex');
-}
+import { Node } from 'ts-morph';
+import { makeNodeId } from '../utils/nodeId';
+import type { CodeNode } from './nodeTypes';
 
 function getJsDoc(node: Node): string | undefined {
 	if (Node.isJSDocable(node)) {
@@ -33,12 +23,7 @@ function isNodeExported(node: Node): boolean {
 	return false;
 }
 
-export function extractNodesFromProject(repoRoot: string, tsConfigPath = 'tsconfig.json'): CodeNode[] {
-	const project = new Project({
-		tsConfigFilePath: path.join(repoRoot, tsConfigPath),
-		skipAddingFilesFromTsConfig: false,
-	});
-
+export function extractNodes(project: Project): CodeNode[] {
 	const nodes: CodeNode[] = [];
 
 	for (const sourceFile of project.getSourceFiles()) {
