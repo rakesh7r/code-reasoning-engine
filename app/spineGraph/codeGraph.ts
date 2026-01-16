@@ -13,6 +13,6 @@ export function addNode(graph: CodeGraph, node: GraphNode) {
 	}
 }
 
-export function addEdge(graph: CodeGraph, from: string, to: string, type: EdgeType) {
-	graph.edges.push({ from, to, type });
+export function addEdge(graph: CodeGraph, from: string, to: string, type: EdgeType, metadata?: any) {
+	graph.edges.push({ from, to, type, metadata });
 }

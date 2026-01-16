@@ -11,4 +11,4 @@ console.log(`Spine Edges: ${spine.edges.length}`);
 console.log(`Derived Nodes: ${derived.nodes.size}`);
 console.log(`Derived Edges: ${derived.edges.length}`);
 
-demo(project, spine, derived);
+// demo(project, spine, derived);

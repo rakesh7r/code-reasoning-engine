@@ -17,10 +17,21 @@ export interface GraphNode {
 	filePath?: string;
 }
 
+export interface CallGraphMetadata {
+	via?: 'identifier' | 'property' | 'framework' | 'hof';
+	certainty?: 'static' | 'heuristic';
+	location?: {
+		file: string;
+		line: number;
+		column: number;
+	};
+}
+
 export interface GraphEdge {
 	from: string;
 	to: string;
 	type: EdgeType;
+	metadata?: CallGraphMetadata;
 }
 
 export interface CodeGraph {
