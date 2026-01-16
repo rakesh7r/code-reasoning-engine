@@ -47,6 +47,40 @@ export function buildCallGraph(project: Project, graph: CodeGraph) {
 				column: sf.getLineAndColumnAtPos(node.getStart()).column,
 			};
 
+			// Extract Arguments
+			// Extract Arguments
+			const args = node.getArguments().map((arg) => {
+				const argType = arg.getType();
+				let typeId: string | undefined;
+
+				// 1. Try to resolve the type definition symbol (Interface, Class, Enum)
+				const typeSymbol = argType.getSymbol() || argType.getAliasSymbol();
+
+				if (typeSymbol) {
+					const decls = typeSymbol.getDeclarations();
+					if (decls.length > 0) {
+						const decl = decls[0];
+						const declFile = decl?.getSourceFile().getFilePath();
+
+						if (declFile) {
+							// We need to guess the kind. For linking, usually 'interface' | 'class' | 'type' | 'enum'
+							let kind: any = 'type'; // Default fallback
+							if (Node.isInterfaceDeclaration(decl)) kind = 'interface';
+							else if (Node.isClassDeclaration(decl)) kind = 'class';
+							else if (Node.isEnumDeclaration(decl)) kind = 'enum';
+
+							typeId = makeNodeId(declFile, typeSymbol.getName(), kind);
+						}
+					}
+				}
+
+				return {
+					text: arg.getText(),
+					type: argType.getText(),
+					typeId,
+				};
+			});
+
 			// Case 1: RESOLVED CALL
 			if (symbol) {
 				const decls = symbol.getDeclarations();
@@ -61,6 +95,7 @@ export function buildCallGraph(project: Project, graph: CodeGraph) {
 						via: Node.isPropertyAccessExpression(expr) ? 'property' : 'identifier',
 						certainty: 'static',
 						location,
+						args,
 					});
 					return;
 				}

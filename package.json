@@ -9,6 +9,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "neo4j-driver": "~5.28.0",
     "ts-morph": "^27.0.2"
   }
 }

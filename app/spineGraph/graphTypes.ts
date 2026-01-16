@@ -25,6 +25,11 @@ export interface CallGraphMetadata {
 		line: number;
 		column: number;
 	};
+	args?: {
+		text: string;
+		type: string;
+		typeId?: string;
+	}[];
 }
 
 export interface GraphEdge {
