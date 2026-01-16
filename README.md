@@ -1,15 +1,1 @@
-# code-reasoner
-
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.5. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+#### This project is not a “chat with your code” tool. It is a codebase reasoning system designed to answer architectural and dependency-level questions by grounding LLM reasoning in static analysis, call graphs, and retrieval-augmented evidence.
